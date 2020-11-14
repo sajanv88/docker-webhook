@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/sajanv88/docker-webhook#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "json-to-pretty-yaml": "^1.2.2"
   }
 }

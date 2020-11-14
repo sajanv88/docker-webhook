@@ -1,9 +1,29 @@
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 8080;
+const fs = require('fs');
 const execute = require('child_process').execSync;
+const YAML = require('json-to-pretty-yaml');
 
-app.post('/api/:service_name/:username/:image_name/:tag', function postMethod(req, res) {
+app.post('/api/mongodb', function spinMongodb(req, res) {
+  try {
+    const json = require('./mongo_stack.json');
+    const mongodb_username = process.env.MONGO_DB_USERNAME;
+    const mongodb_password = process.env.MONGO_DB_PASSWORD;
+    if(typeof mongodb_username !== 'undefined' && typeof mongodb_password !== 'undefined') {
+      json.services.mongo.environment.MONGO_INITDB_ROOT_USERNAME = mongodb_username;
+      json.services.mongo.environment.MONGO_INITDB_ROOT_PASSWORD = mongodb_password;
+      console.log('using server environment credentials');
+    }
+    fs.writeFileSync('mongo_stack.yaml', YAML.stringify(json), {encoding: 'utf-8'});
+    execute('docker stack deploy -c mongo_stack.yaml db');
+    res.status(200).send({message: 'Success!'});
+  }catch(e) {
+    res.status(500).send({message: e.message});
+  }
+});
+
+app.post('/api/:service_name/:username/:image_name/:tag', function deployWebApp(req, res) {
   const serviceName = req.params.service_name || '';
   const username = req.params.username || '';
   const imageName = req.params.image_name || '';
