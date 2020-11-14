@@ -9,7 +9,7 @@
         "MONGO_INITDB_ROOT_PASSWORD": "password"
       },
       "ports": ["27017:27017"],
-      "volumes": ["/mnt/storage/:/data/db"]
+      "volumes": ["/mnt/HC_Volume_6539161", "/:/data/db"]
     }
   }
 }
