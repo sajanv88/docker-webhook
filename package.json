@@ -1,0 +1,26 @@
+{
+  "name": "docker-webhook",
+  "version": "1.0.0",
+  "description": "Simple server which run docker service update command when new docker image pushed into the docker hub",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sajanv88/docker-webhook.git"
+  },
+  "keywords": [
+    "docker-webhook",
+    "webhook-nodejs"
+  ],
+  "author": "Sajankumar Vijayan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sajanv88/docker-webhook/issues"
+  },
+  "homepage": "https://github.com/sajanv88/docker-webhook#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
