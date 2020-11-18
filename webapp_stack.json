@@ -4,7 +4,6 @@
     "webapp": {
       "image": "sajandev/blogapp:latest",
       "restart": "always",
-      "container_name": "webapp",
       "environment": {
         "MONGO_URI": "{mongo_uri}"
       },
