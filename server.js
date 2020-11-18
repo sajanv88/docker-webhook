@@ -47,18 +47,14 @@ app.post('/api/deploy_webapp', function deploy(req, res) {
   }
 });
 
-app.post('/api/:service_name/:username/:image_name/:tag', function deployWebApp(req, res) {
+app.post('/api/update/:service_name', function deployWebApp(req, res) {
   const serviceName = req.params.service_name || '';
-  const username = req.params.username || '';
-  const imageName = req.params.image_name || '';
-  const tag = req.params.tag || 'latest';
-  if(typeof serviceName !== 'string' || typeof username !== 'string' || typeof imageName !== 'string') {
+  if(typeof serviceName !== 'string') {
     return res.status(400).send({message: 'Bad request'});
   }
   try{
-    const dockerImageInfo = `${username}/${imageName}:${tag} ${serviceName}`;
-    execute(`docker service update --image ${dockerImageInfo}`);
-    console.log(`Build updated has been updated. ${dockerImageInfo}`);
+    execute(`docker service update --force ${serviceName}`);
+    console.log(`Build updated has been updated. ${serviceName}`);
     res.status(200).send({message: 'Success!'});
   }catch(e) {
     console.error(e);
