@@ -1,21 +1,25 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
 const port = process.env.PORT || 8080;
 const fs = require('fs');
 const execute = require('child_process').execSync;
 const YAML = require('json-to-pretty-yaml');
 
+app.use(bodyParser.json());
+
 app.post('/api/mongodb', function spinMongodb(req, res) {
   try {
-    const json = require('./mongo_stack.json');
-    const mongodb_username = process.env.MONGO_DB_USERNAME;
-    const mongodb_password = process.env.MONGO_DB_PASSWORD;
+    let json = fs.readFileSync('mongo_stack.json', {encoding: 'utf-8'});
+    const mongodb_username = process.env.MONGO_DB_USERNAME || req.body.MONGO_DB_USERNAME || 'root';
+    const mongodb_password = process.env.MONGO_DB_PASSWORD || req.body.MONGO_DB_PASSWORD || 'password';
+
     if(typeof mongodb_username !== 'undefined' && typeof mongodb_password !== 'undefined') {
-      json.services.mongo.environment.MONGO_INITDB_ROOT_USERNAME = mongodb_username;
-      json.services.mongo.environment.MONGO_INITDB_ROOT_PASSWORD = mongodb_password;
+      json = json.replace(/{.*?}/, mongodb_username).replace(/{.*?}/, mongodb_password);
+      json = JSON.parse(json);
       console.log('using server environment credentials');
     }
-    fs.writeFileSync('mongo_stack.yaml', YAML.stringify(json), {encoding: 'utf-8'});
+    fs.writeFileSync('./mongo_stack.yaml', YAML.stringify(json), {encoding: 'utf-8', flag: 'w'});
     execute('docker stack deploy -c mongo_stack.yaml db');
     res.status(200).send({message: 'Success!'});
   }catch(e) {
@@ -27,10 +31,13 @@ app.post('/api/mongodb', function spinMongodb(req, res) {
 
 app.post('/api/deploy_webapp', function deploy(req, res) {
   try{
-    const json = require('./webapp_stack.json');
-    const mongo_uri = process.env.MONGO_URI;
-    json.services.webapp.environment.MONGO_URI = mongo_uri;
-    fs.writeFileSync('webapp_stack.yaml', YAML.stringify(json), {encoding: 'utf-8'});
+    let json = fs.readFileSync('webapp_stack.json', {encoding: 'utf-8'});
+    const uri = process.env.MONGO_URI || req.body.MONGO_URI;
+    json = json.replace(/{.*?}/, uri);
+    json = JSON.parse(json);
+    console.log(json, 'jsoin')
+
+    fs.writeFileSync('webapp_stack.yaml', YAML.stringify(json), {encoding: 'utf-8', flag: 'w'});
     execute('docker stack deploy -c webapp_stack.yaml blogapp');
     console.log('deploy_webapp created!!!')
     res.status(200).send({message: 'Success!'});

@@ -4,6 +4,7 @@
   "description": "Simple server which run docker service update command when new docker image pushed into the docker hub",
   "main": "server.js",
   "scripts": {
+    "dev": "nodemon server.js",
     "start": "node server.js"
   },
   "repository": {
@@ -21,7 +22,9 @@
   },
   "homepage": "https://github.com/sajanv88/docker-webhook#readme",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "express": "^4.17.1",
-    "json-to-pretty-yaml": "^1.2.2"
+    "json-to-pretty-yaml": "^1.2.2",
+    "nodemon": "^2.0.6"
   }
 }
