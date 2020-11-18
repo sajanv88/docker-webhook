@@ -23,6 +23,23 @@ app.post('/api/mongodb', function spinMongodb(req, res) {
   }
 });
 
+
+
+app.post('/api/deploy_webapp', function deploy(req, res) {
+  try{
+    const json = require('./webapp_stack.json');
+    const mongo_uri = process.env.MONGO_URI;
+    json.services.webapp.environment.MONGO_URI = mongo_uri;
+    fs.writeFileSync('webapp_stack.yaml', YAML.stringify(json), {encoding: 'utf-8'});
+    execute('docker stack deploy -c webapp_stack.yaml blogapp');
+    console.log('deploy_webapp created!!!')
+    res.status(200).send({message: 'Success!'});
+  }catch(e) {
+    console.log('failed to deploy_webapp', e.message);
+    res.status(500).send({message: e.message});
+  }
+});
+
 app.post('/api/:service_name/:username/:image_name/:tag', function deployWebApp(req, res) {
   const serviceName = req.params.service_name || '';
   const username = req.params.username || '';
