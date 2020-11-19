@@ -27,7 +27,7 @@ module.exports = {
           flag: "w",
         });
 
-        // execute(`docker stack deploy -c webapp_stack.yaml ${serviceName}`);
+        execute(`docker stack deploy -c webapp_stack.yaml ${serviceName}`);
         const msg = `deploy_webapp: ${serviceName} successfully created!!!`;
         console.log(msg);
         resolve({ code: 200, message: msg });
