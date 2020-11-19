@@ -7,7 +7,7 @@ const webapp = require("./deploy");
 app.use(bodyParser.json());
 
 app.post("/api/mongodb", async function spinMongodb(req, res) {
-    const serviceName = req.params.service_name;
+  const serviceName = req.params.service_name;
   const { MONGO_DB_USERNAME, MONGO_DB_PASSWORD } = req.body;
   try {
     const data = await webapp.deployMongodb(
@@ -22,7 +22,12 @@ app.post("/api/mongodb", async function spinMongodb(req, res) {
 
 app.post("/api/deploy_webapp", async function deploy(req, res) {
   try {
-    const data = await webapp.deploy();
+    const { MONGO_URI, NEXT_PUBLIC_FB_ID, JWT_SCERET_KEY } = req.body;
+    const data = await webapp.deploy({
+      MONGO_URI,
+      NEXT_PUBLIC_FB_ID,
+      JWT_SCERET_KEY,
+    });
     res.status(data.code).json(data);
   } catch (err) {
     res.status(err.code).json(err);
@@ -31,9 +36,15 @@ app.post("/api/deploy_webapp", async function deploy(req, res) {
 
 app.post("/api/update/:service_name", async function deployWebApp(req, res) {
   try {
-    const data = await webapp.deploy();
+    const { MONGO_URI, NEXT_PUBLIC_FB_ID, JWT_SCERET_KEY } = req.body;
+    const data = await webapp.deploy({
+      MONGO_URI,
+      NEXT_PUBLIC_FB_ID,
+      JWT_SCERET_KEY,
+    });
     res.status(data.code).json(data);
   } catch (err) {
+    console.log("errr ===>", err);
     res.status(err.code).json(err);
   }
 });
