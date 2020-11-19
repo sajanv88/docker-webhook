@@ -5,7 +5,9 @@
       "image": "sajandev/blogapp:latest",
       "restart": "always",
       "environment": {
-        "MONGO_URI": "{mongo_uri}"
+        "MONGO_URI": "{mongo_uri}",
+        "NEXT_PUBLIC_FB_ID": "{fb_id}",
+        "JWT_SCERET_KEY": "{jwt_secret_key}"
       },
       "ports": ["3000:3000"]
     }

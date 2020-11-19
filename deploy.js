@@ -8,7 +8,12 @@ module.export = {
       try {
         let json = fs.readFileSync("webapp_stack.json", { encoding: "utf-8" });
         const uri = process.env.MONGO_URI || req.body.MONGO_URI;
-        json = json.replace(/{.*?}/, uri);
+        const fb_id = process.env.NEXT_PUBLIC_FB_ID || req.body.NEXT_PUBLIC_FB_ID;
+        const jwt_secret_key = process.env.JWT_SCERET_KEY || req.body.JWT_SCERET_KEY;
+        if(!uri || !fb_id || !jwt_secret_key) throw new Error('environment variables are required');
+        json = json.replace(/{.*?}/, uri)
+        .replace(/{.*?}/, fb_id)
+        .replace(/{.*?}/, jwt_secret_key);
         json = JSON.parse(json);
         console.log(json, "jsoin");
 

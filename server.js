@@ -16,7 +16,7 @@ app.post("/api/mongodb", async function spinMongodb(req, res) {
     );
     res.status(data.code).json(data);
   } catch (err) {
-    res.status(e.code).json(err);
+    res.status(err.code).json(err);
   }
 });
 
@@ -25,7 +25,7 @@ app.post("/api/deploy_webapp", async function deploy(req, res) {
     const data = await webapp.deploy();
     res.status(data.code).json(data);
   } catch (err) {
-    res.status(e.code).json(err);
+    res.status(err.code).json(err);
   }
 });
 
@@ -34,7 +34,7 @@ app.post("/api/update/:service_name", async function deployWebApp(req, res) {
     const data = await webapp.deploy();
     res.status(data.code).json(data);
   } catch (err) {
-    res.status(e.code).json(err);
+    res.status(err.code).json(err);
   }
 });
 
