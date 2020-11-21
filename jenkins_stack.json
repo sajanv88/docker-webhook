@@ -3,9 +3,8 @@
   "services": {
     "jenkins_app": {
       "image": "jenkins/jenkins:lts",
-      "restart": "always",
 			"ports": ["8080:8080", "5000:5000"],
-			"volumes": ["/mnt/HC_Volume_6539161/jenkins_home:/var/jenkins_home"]
+			"volumes": ["/mnt/HC_Volume_6539161/jenkins_home:/data/var/jenkins_home"]
     }
   }
 }

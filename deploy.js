@@ -88,7 +88,7 @@ module.exports = {
   },
   deployJenkins: async function jenkins() {
     return new Promise((resolve, reject) => {
-      const serviceName = 'jenkins_app';
+      const serviceName = 'jenkins';
       try {
         let json = fs.readFileSync("jenkins_stack.json", { encoding: "utf-8" });
         json = JSON.parse(json);
