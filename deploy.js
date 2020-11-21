@@ -41,7 +41,7 @@ module.exports = {
   updateWebApp: function updateWebAppDeployment(serviceName) {
     return new Promise((resolve, reject) => {
       try{
-      execute(`docker service update --force ${serviceName || 'web_app'}`);
+        execute(`docker service update --force ${serviceName || 'web_app'}`);
         resolve({code: 200, message: `${serviceName} updated successfully`});
       }catch(e) {
         reject({code: 500, message: e.message})
