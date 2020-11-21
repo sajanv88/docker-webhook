@@ -38,6 +38,17 @@ module.exports = {
       }
     });
   },
+  updateWebApp: function updateWebAppDeployment(serviceName) {
+    return new Promise((resolve, reject) => {
+      try{
+      execute(`docker stack deploy -c webapp_stack.yaml ${serviceName || 'web_app'}`);
+        resolve({code: 200, message: `${serviceName} updated successfully`});
+      }catch(e) {
+        reject({code: 500, message: e.message})
+      }
+    })
+
+  },
   deployMongodb: async function deploymentMongoDatabase(
     { MONGO_DB_USERNAME, MONGO_DB_PASSWORD },
     serviceName = "db"

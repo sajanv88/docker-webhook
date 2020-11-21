@@ -36,12 +36,7 @@ app.post("/api/deploy_webapp", async function deploy(req, res) {
 
 app.post("/api/update/:service_name", async function deployWebApp(req, res) {
   try {
-    const { MONGO_URI, NEXT_PUBLIC_FB_ID, JWT_SCERET_KEY } = req.body;
-    const data = await webapp.deploy({
-      MONGO_URI,
-      NEXT_PUBLIC_FB_ID,
-      JWT_SCERET_KEY,
-    });
+    await webapp.updateWebApp(req.params.service_name);
     res.status(data.code).json(data);
   } catch (err) {
     console.log("errr ===>", err);
