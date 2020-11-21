@@ -48,7 +48,7 @@ app.post('/api/deploy_jenkins', async function deployJenkins(req, res) {
   try{
     const data = await webapp.deployJenkins();
     res.status(data.code).json(data);
-  }catch(e) {
+  }catch(err) {
     console.log("errr ===>", err);
     res.status(err.code).json(err);
   }
