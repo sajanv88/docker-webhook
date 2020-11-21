@@ -88,6 +88,7 @@ module.exports = {
   },
   deployJenkins: async function jenkins() {
     return new Promise((resolve, reject) => {
+      const serviceName = 'jenkins_app';
       try {
         let json = fs.readFileSync("jenkins_stack.json", { encoding: "utf-8" });
         json = JSON.parse(json);
@@ -100,7 +101,7 @@ module.exports = {
         console.log(msg);
         resolve({ code: 200, message: msg });
       }catch(e) {
-        const msg = `jenkins: ${name} failed!!" reason: ${e.message}`;
+        const msg = `jenkins: ${serviceName} failed!!" reason: ${e.message}`;
         console.log(msg);
         res.status(500).send({ message: msg });
       }
