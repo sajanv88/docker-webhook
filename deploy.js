@@ -86,4 +86,24 @@ module.exports = {
       }
     });
   },
+  deployJenkins: async function jenkins() {
+    return new Promise((resolve, reject) => {
+      try {
+        let json = fs.readFileSync("jenkins_stack.json", { encoding: "utf-8" });
+        json = JSON.parse(json);
+        fs.writeFileSync("jenkins_stack.yaml", YAML.stringify(json), {
+          encoding: "utf-8",
+          flag: "w",
+        });
+        execute(`docker stack deploy -c jenkins_stack.yaml ${serviceName}`);
+        const msg = `jenkins: ${serviceName} successfully created!!!`;
+        console.log(msg);
+        resolve({ code: 200, message: msg });
+      }catch(e) {
+        const msg = `jenkins: ${name} failed!!" reason: ${e.message}`;
+        console.log(msg);
+        res.status(500).send({ message: msg });
+      }
+    })
+  }
 };

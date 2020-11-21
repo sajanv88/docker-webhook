@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 4000;
 const webapp = require("./deploy");
 
 app.use(bodyParser.json());
@@ -39,6 +39,16 @@ app.post("/api/update/:service_name", async function deployWebApp(req, res) {
     const data = await webapp.updateWebApp(req.params.service_name);
     res.status(data.code).json(data);
   } catch (err) {
+    console.log("errr ===>", err);
+    res.status(err.code).json(err);
+  }
+});
+
+app.post('/api/deploy_jenkins', async function deployJenkins(req, res) {
+  try{
+    const data = await webapp.deployJenkins();
+    res.status(data.code).json(data);
+  }catch(e) {
     console.log("errr ===>", err);
     res.status(err.code).json(err);
   }
