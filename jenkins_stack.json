@@ -4,7 +4,7 @@
     "jenkins_app": {
       "image": "jenkins/jenkins",
 			"ports": ["8080:8080", "5000:5000"],
-			"volumes": ["/mnt/HC_Volume_6539161/jenkins_home:/var/jenkins_home"]
+			"volumes": ["/mnt/HC_Volume_6539161/jenkins_home:/var/jenkins_home", "/var/run/docker.sock:/var/run/docker.sock"]
     }
   }
 }
