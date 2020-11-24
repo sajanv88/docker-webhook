@@ -15,6 +15,7 @@ module.exports = {
         let json = fs.readFileSync("webapp_stack.json", { encoding: "utf-8" });
         const uri = process.env.MONGO_URI || MONGO_URI;
         const fb_id = process.env.NEXT_PUBLIC_FB_ID || NEXT_PUBLIC_FB_ID;
+        console.log(fb_id, 'fb_id');
         const jwt_secret_key = process.env.JWT_SCERET_KEY || JWT_SCERET_KEY;
         if (!uri || !fb_id || !jwt_secret_key)
           throw new Error("environment variables are required");
