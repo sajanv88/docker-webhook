@@ -3,6 +3,9 @@ const execute = require("child_process").execSync;
 const YAML = require("json-to-pretty-yaml");
 
 module.exports = {
+  envStatus: function () {
+    console.log(process.env, 'environment');
+  },
   deploy: async function deployment(
     { MONGO_URI, NEXT_PUBLIC_FB_ID, JWT_SCERET_KEY },
     serviceName = "blogapp"
@@ -41,7 +44,9 @@ module.exports = {
   updateWebApp: function updateWebAppDeployment(serviceName) {
     return new Promise((resolve, reject) => {
       try{
-        execute(`docker service update --force ${serviceName || 'web_app'}`);
+        // execute(`docker service update --force ${serviceName || 'web_app'}`);
+        execute(`docker service rm ${serviceName}`);
+
         resolve({code: 200, message: `${serviceName} updated successfully`});
       }catch(e) {
         reject({code: 500, message: e.message})

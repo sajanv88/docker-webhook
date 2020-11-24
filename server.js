@@ -54,6 +54,11 @@ app.post('/api/deploy_jenkins', async function deployJenkins(req, res) {
   }
 });
 
+app.get('/api/show_env', function(req, res) {
+  webapp.envStatus();
+  res.status(200).json({message: 'done!'});
+});
+
 app.listen(port, function listener() {
   console.log("Docker hook up and running port", port);
 });
