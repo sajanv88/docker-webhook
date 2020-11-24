@@ -46,7 +46,6 @@ module.exports = {
       try{
         // execute(`docker service update --force ${serviceName || 'web_app'}`);
         execute(`docker service rm ${serviceName}`);
-
         resolve({code: 200, message: `${serviceName} updated successfully`});
       }catch(e) {
         reject({code: 500, message: e.message})
